@@ -1,7 +1,5 @@
 from pyspark.sql import SparkSession
 from pyspark import SparkContext
-import shutil
-
 
 input_file = "gs://pub/shakespeare/rose.txt"
 output_dir = "gs://us-central1-highcpu-11357220-bucket/output"
@@ -23,8 +21,6 @@ word_count = words.map(lambda word: (word, 1))
 
 # Reduce by key to count the occurrences of each word
 word_count = word_count.reduceByKey(lambda a, b: a + b)
-
-shutil.rmtree(output_dir, ignore_errors=True)
 
 # Save the word count results to the specified output directory
 word_count.saveAsTextFile(output_dir)
